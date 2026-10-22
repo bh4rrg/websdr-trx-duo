@@ -1,0 +1,155 @@
+# ============================================================
+# websdr-trx-duo 版本管理边界
+# 原则：只跟踪"我们自己写/改的东西"（脚本、源码补丁、配置、文档、
+# 启动 overlay）。工具链、上游镜像、Vivado/CMake 构建产物、大二进制
+# 一律不入库；大二进制用 BIN_MANIFEST.sha256 清单固化身份。
+# ============================================================
+
+# ---- 上游/工具链（junction 指向 D:\vendor，绝不入库）----
+/fpga/toolchain/
+/fpga/sysroot-alpine320/
+# kernel_build 现在是真实目录：自研脚本/补丁/defconfig/sdrdma 源码入库，
+# 但内部重型上游（内核树、工具链、临时区）是子 junction，构建产物不入库。
+/fpga/kernel_build/linux-6.18.38/
+/fpga/kernel_build/toolchain/
+/fpga/kernel_build/tmp/
+/fpga/kernel_build/tmprtl/
+/fpga/kernel_build/sdrdma/*.o
+/fpga/kernel_build/sdrdma/*.ko
+/fpga/kernel_build/sdrdma/*.mod.c
+/fpga/kernel_build/sdrdma/*.mod.o
+/fpga/kernel_build/sdrdma/*.cmd
+/fpga/kernel_build/sdrdma/.*.cmd
+/fpga/kernel_build/sdrdma/Module.symvers
+/fpga/kernel_build/sdrdma/modules.order
+/fpga/kernel_build/sdrdma/Module.markers
+/fpga/kernel_build/sdrdma/.tmp_versions/
+/fpga/apks/
+/fpga/bootimg/
+/toolchain/
+
+# ---- 原厂镜像与 SD 卡整盘镜像 ----
+*.zip
+/sdcard/
+/w888/
+/trxduo/
+/NA/
+/src/rpnotes.tar.gz
+
+# ---- boot.bin 及各类大二进制（身份见 BIN_MANIFEST.sha256）----
+*.bin
+*.bak
+bootcap*.bin
+deploy/FAT/
+
+# ---- radare2 逆向工具本体（patch/r2 是下载的二进制包）----
+/patch/r2/
+/patch/*.zip
+
+# ---- Vivado 工程生成物 ----
+*.runs/
+*.cache/
+*.hw/
+*.sim/
+*.gen/
+.ip_user_files/
+.Xil/
+*.jou
+*.log
+*.backup.jou
+*.backup.log
+*.rpx
+*.dcp
+*.bit
+*.ltx
+*_vinfo.log
+fpga/trxduo_port/out_*/
+fpga/trxduo_port/*.bit/
+fpga/OpenZynqSDR_HW-main/Src_Vivado/OpenZynqSDR_HW.ip_user_files/
+src/red-pitaya-notes-web888_bootloader_si5351_driver/tmp/
+
+# ---- CMake/zig 构建输出 ----
+fpga/build_app/build/
+fpga/build_app/zig-cache-local/
+fpga/build_app/*.log
+fpga/build_app/t*.elf
+
+# ---- 上游源码树自带的音频样本（30MB+，非我们产出）----
+**/kiwi.config/samples/
+**/config/samples/
+unix_env/kiwi.config/
+
+# ---- 上游重复副本（develop 版才是我们在改的）----
+/fpga/OpenZynqSDRApp/
+/fpga/TRX_DUO_125-16-master/
+
+# ---- Vivado IP 生成物 ----
+ipshared/
+*.xi
+*.mmcn
+ip_user_files/
+*.ip_user_files/
+
+# ---- 上游自带音频样本 ----
+**/standalone_test/*.au
+*.au
+*.raw
+
+# ---- 杂项 ----
+-
+com6-raw.bin
+*.tmp
+Thumbs.db
+Desktop.ini
+
+# 例外：这些"看起来像产物"的文件是部署真相，必须入库
+!apkovl-gz/*.tar.gz
+!deploy/*.tar.gz
+
+# 发布分支排除的本地参考副本与调试区
+patch/
+fpga/server-master/
+fpga/OpenZynqSDR_HW-main/
+apkovl-gz/
+deploy/
+"\347\273\247\347\273\255\344\271\213\345\211\215\344\273\273\345\212\241.md"
+"FPGA \346\236\204\345\273\272\344\270\216\346\227\266\345\272\217\347\272\246\346\235\237\344\277\256\345\244\215.md"
+"KiwiSDR WebSDR \346\226\271\346\241\210\345\222\250\350\257\242.md"
+_toc.txt
+apkovl.tar.gz
+askpass.cmd
+BIN_MANIFEST.sha256
+bootcap.txt
+bootcap2.txt
+com6-capture40.ps1
+com6-long.ps1
+com6-monitor.ps1
+com6-raw.ps1
+copy-image.ps1
+copy-patched.ps1
+copy-trxduo.ps1
+diskpart-clean.txt
+download-trxduo.ps1
+provision-sd.ps1
+serial_bitstream.txt
+serial_diag.txt
+serial_diag2.txt
+serial_diag3.txt
+serial_diag4.txt
+serial_diag5.txt
+serial_gcc.txt
+serial_gcc2.txt
+serial_i2c.txt
+serial_i2c2.txt
+serial_ldpreload.txt
+serial_out.txt
+serial_out2.txt
+serial_relf.txt
+swap-bootbin.ps1
+verify-card.ps1
+verify-contig.ps1
+verify-patched-card.ps1
+
+FPGA 构建与时间序约束修复.md
+KiwiSDR WebSDR 方案咨询.md
+继续之前任务.md
